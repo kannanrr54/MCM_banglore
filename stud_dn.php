@@ -15,16 +15,19 @@ session_start();
 <style>
 .viewdt {
     /*used for styling the view list*/
-    height: 65%;
-    width: 80%;
-    background-color: #D0D4DD;
+    height: 50%;
+    width: 50%;
     position: absolute;
     top: 3%;
-    left: 10%;
+    left: 0;
+    right:0;
     border-radius: 15px;
-    border-style: dotted;
     text-transform: uppercase;
     display: none;
+    margin-left:auto;
+    margin-right:auto;
+    top:20%;
+    z-index: 1;
 }
 .edt{
     height: 25px;
@@ -62,11 +65,9 @@ session_start();
   color: white;
   padding: 16px 32px;
   text-align: center;
-  text-decoration: none;
   display: inline-block;
   font-size: 16px;
   margin: 4px;
-  transition-duration: 0.4s;
   cursor: pointer;
   border-radius:5px;
   float:right;
@@ -110,7 +111,7 @@ session_start();
   padding: 8px;
 }
 
-#customers tr:nth-child(even){background-color: #f2f2f2;}
+#customers tr:nth-child(odd){background-color: #f2f2f2;}
 
 #customers tr:hover {background-color: #ddd;}
 
@@ -120,6 +121,11 @@ session_start();
   text-align: left;
   background-color: #04AA6D;
   color: white;
+}
+#t_head{
+  background-color:#dfd9d9 !important;
+  font-weight: 600;
+  
 }
 .BtnGrp{
   margin-left: auto;
@@ -160,55 +166,214 @@ session_start();
   background-color: #504981; 
   border: none;
   color: white;
-  padding:10  px;
+  padding:10px;
   text-align: center;
   text-decoration: none;
   display: inline-block;
   font-size: 16px;
   border-radius:5px;
 }
+#searchBtn{
+  width:60px;
+  height:60px;
+  background-image:url("img/searchBtn.png");
+  background-size:contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 45%;
+}
+.searchButton:hover ,.refresh:hover,.Dld_Btn:hover{
+  background-color: #936DB8;
+}
+.mainPop{
+            border:2px solid black;
+            width: 100%;
+            height: 100%;
+            position: relative;
+            border-radius: 10px;
+            background-color: white;
+        }
+        .close{
+            float:right;
+            padding: 12px;
+            border: none;
+            border-radius: 10px;
+            margin: 10px;
+            background-image: url("img/close.png");
+            background-size:contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: 60%;
+            background-color: red;
+        }
+        .bottomBar{
+            bottom: 0;
+            width: 100%;
+            position: absolute;
+            justify-content: space-between;
+            display: flex;
+            margin-bottom: 5px;
+            margin-top:10px;
+        }
+        .popDld{
+            margin-left: 10%;
+            padding:10px;
+        }
+        .popSelect{
+            margin-right: 10%; 
+        }
+        .data{
+            width: 70%;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .edit{
+            width: 40px;
+            border: none;
+            margin-left:10px;
+            background-color: white;
+            background-image: url("img/edit.png");
+            background-size:contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: 80%;
+        }
+        .dataText{
+          width: 100%;
+          height:40px;
+          padding:5px;
+          padding-left:10px;
+            border: none;
+            background-color: rgb(236, 234, 234);
+            border-radius: 5px;
+        }
+        .popHead{
+            background-color: black;
+            width: 100%;
+            border-radius: 10px;
+            color: white;
+            height:100%;
+        }
+        .name_id{
+            width:70%;
+            margin:0px;
+            float:left;
+            margin-top:5px;
+            margin-left:10px;
+        }
+        td{
+          color:black;
+        }
+        .div_head{
+          width:100%;
+          height:10%;
+        }
+        .dataTable{
+          width:90%;
+          margin-top:20px;
+        }
 </style>
 <body>
-  <div style="margin-top:5%;">
-    <div class="title">
-      <div class="searchComp">
-        <label for="srch" style="padding:2px;margin-left:10px;">Search Student</label>
-        </br>
-        <div class="ButtonwithSearch">
-          <input type="text" placeholder="Enter Name or Ref no:" id="srch" class="searchText">
-          <input type="button" value="Search" onclick="crete_list()" class="searchButton">
+  <div id="blur1">
+    <div style="margin-top:10%;">
+      <div class="title">
+        <div class="searchComp">
+          <label for="srch" style="padding:2px;margin-left:10px;">Search Student</label>
+          </br>
+          <div class="ButtonwithSearch">
+            <input type="text" placeholder="Enter Name or Ref no:" id="srch" class="searchText">
+            <input type="button" onclick="crete_list()" class="searchButton" id="searchBtn">
+          </div>
+        </div>
+        <input type="Button" onclick="csv_dn()" class="Dld_Btn">
+        <input type="button" onclick="rldk()" class="refresh">
+      </div>
+      </br>
+      </br>
+      </br>
+      </br>
+      <div class="bking_list" id="bking_listz">
+        <table id="customers"></table>
+      </div>
+    </div>
+  </div>
+
+    <div class="viewdt" id="idview">
+      <div class="popHead">
+        <div class="div_head">
+          <p class="name_id">
+            <b>
+              <span id="name"></span> ( <span id="stdid"></span> ) </b>
+          </p>
+          <button class="close" onclick="clossdiv()">
+            </span>
+          </button>
+        </div>
+        <div class="mainPop">
+          <div class="data">
+            <table class="dataTable">
+              <tr>
+                <td>Email : </td>
+                <td>
+                  <input type="text" class="dataText" id="emaildw">
+                </td>
+                <td>
+                  <input type="button" class="edit" onclick="edtfn()">
+                </td>
+              </tr>
+              <tr>
+                <td>Phone : </td>
+                <td>
+                  <input type="text" class="dataText" id="ph">
+                </td>
+              </tr>
+              <tr>
+                <td>Father's Income : </td>
+                <td>
+                  <input type="text" class="dataText" id="fin">
+                </td>
+              </tr>
+              <tr>
+                <td>Mother's Income : </td>
+                <td>
+                  <input type="text" class="dataText" id="min">
+                </td>
+              </tr>
+              <tr>
+                <td>Total Sibling's Income : </td>
+                <td>
+                  <input type="text" class="dataText" id="sin">
+                </td>
+              </tr>
+              <tr>
+                <td>Rank : </td>
+                <td>
+                  <input type="text" class="dataText" id="rank">
+                </td>
+              </tr>
+              <tr>
+                <td>Mark : </td>
+                <td>
+                  <input type="text" class="dataText" id="mark">
+                </td>
+              </tr>
+            </table>
+          </div>
+          <div class="bottomBar">
+            <button class="popDld searchButton" onclick="csv_dwn()">Download</button>
+            <button class="popSelect searchButton" onclick="rjt()">Select</button>
+          </div>
         </div>
       </div>
-      <input type="Button" onclick="csv_dn()" class="Dld_Btn">
-      <input type="button" onclick="rldk()" class="refresh" >
     </div>
-</br></br></br></br>
-    <div class="bking_list" id="bking_listz">
-      <table id="customers">  
-</table>
+
+    <div id="blur2">
+      <div class="BtnGrp">
+        <!-- <input type="Button" value="Download Application List" onclick="csv_dwn()" class="searchButton"> -->
+        <input type="Button" value="Download Selected Lst" onclick="csv_dn()" class="searchButton" style="float:right" id="csv">
+        <input type="button" value="Submit to HOD" onclick="to_hod()" class="searchButton" style="float:left" id="Submit_HOD">
+      </div>
     </div>
-    <div class="viewdt" id="idview">
-    <h2 id="nme" style="position:absolute;left:10%;top:35px;"><span id="name">DON G MADAMANNIL</span>&nbsp;(<span id="stdid" style="color:red;">TJXLMZHV</span>)</h2><br>
-    <h3 id="adress" style="position:absolute;left:10%;top:115px;">Email id:<span id="emaildw">dongeevarghese44@gmail.com</span></h3>
-    <h3 id="ano" style="position:absolute;left:10%;top:195px;">Phno:<span id="ph" style="color:blue;">9874562456</span></h3>
-    <h3 id="cdetails" style="position:absolute;left:10%;top:265px;text-transform:none;">Father Income<span id="fin" style="color:blue;">565456 </span><br><br><br>Mother Income:<span id="min" style="color:blue;">45644 </span></h3>
-    <h3 id="cdetails" style="position:absolute;left:10%;top:305px;text-transform:none;">Total sibling income:<span id="sin" style="color:blue;">565456 </span></h3>
-    <h3 id="adress" style="position:absolute;left:10%;top:450px;">Rank:<span id="rank" style="color:blue;">56</span> </h3>
-    <h3 id="ano" style="position:absolute;left:10%;top:500px;">Mark<span id="mark" style="color:blue;">564</span></h3>
-<div style="background-color:red;height:60%;width:50%;position:absolute;top:30%;left:40%;border-radius:15px;">
-sdgsfg
-    </div>
-            <input type="button" onclick="clossdiv()" value="X" style="position:absolute;left:96%;top:11px;background-color:#FF8A8A;border-radius:3px;cursor:pointer;">
-            <input type="button" value="EDIT" onclick="edtfn()" style="position:absolute;top:92%;left:40%;height:40px;width:115px;border-radius:10px;cursor:pointer;">
-            <input type="button" value="Select" onclick="rjt()" style="position:absolute;top:92%;left:55%;height:40px;width:115px;border-radius:10px;cursor:pointer;background-color:#6F8BBA;">
-<input type="button" value="Download details" style="position:absolute;top:92%;left:25%;height:40px;width:145px;border-radius:10px;cursor:pointer;background-color:#6F8BBA;" onclick="csv_dwn()">
-        </div>
-        <div class="BtnGrp">
-    <!-- <input type="Button" value="Download Application List" onclick="csv_dwn()" class="searchButton"> -->
-    <input type="Button" value="Download Selected Lst" onclick="csv_dn()" class="searchButton" style="float:right" id="csv">
-    <input type="button" value="Submit to HOD" onclick="to_hod()" class="searchButton" style="float:left" id="Submit_HOD">
-</div>
-  </div>
 </body>
 <script>
     //function call is used to create the student list on load
@@ -260,7 +425,9 @@ function viewclick(vonj) {
            tst_id = vonj.getAttribute("data-stid");
             filldivplz(tst_id);
             document.getElementById("idview").style.display = "block";
-
+            document.getElementById("blur1").style.filter="blur(10px)";  
+            document.getElementById("blur2").style.filter="blur(10px)"; 
+            // document.body.style.filter="blur(8px)";
         }
          //used for fillng the  div elements
 function filldivplz(reff_no_tst) {
@@ -278,13 +445,13 @@ function filldivplz(reff_no_tst) {
                   //  alert(resobjri[0]); 
                     document.getElementById("name").innerHTML = resobjri[0];
                     document.getElementById("stdid").innerHTML = resobjri[1];
-                    document.getElementById("emaildw").innerHTML = resobjri[2];
-                    document.getElementById("ph").innerHTML = resobjri[3];
-                    document.getElementById("fin").innerHTML = resobjri[4];
-                    document.getElementById("min").innerHTML = resobjri[5];
-                    document.getElementById("sin").innerHTML = resobjri[6]+ resobjri[7];
-                    document.getElementById("rank").innerHTML = resobjri[8];
-                    document.getElementById("mark").innerHTML = resobjri[9];
+                    document.getElementById("emaildw").value = resobjri[2];
+                    document.getElementById("ph").value = resobjri[3];
+                    document.getElementById("fin").value = resobjri[4];
+                    document.getElementById("min").value = resobjri[5];
+                    document.getElementById("sin").value = resobjri[6]+ resobjri[7];
+                    document.getElementById("rank").value = resobjri[8];
+                    document.getElementById("mark").value = resobjri[9];
 
 
                 }
@@ -318,7 +485,7 @@ function crete_list() {
 			$('#bking_listz').empty();
 			notfnd = `<h3 align='center' style='color:#EC8282;'>oops,no details found</h3> `;
 			if (res1[0] != "NULL") {
-        txv=txv+'<table id="customers"><tr><td>ID</td><td>Name</td><td>Roll No</td><td><center>View / Edit</center></td><td><center>Action</center></td></tr>';
+        txv=txv+'<table id="customers"><tr id="t_head"><td>ID</td><td>Name</td><td>Roll No</td><td><center>View / Edit</center></td><td><center>Action</center></td></tr>';
 				for (i = 0; i < res1.length; i++) {
 					idName = "stid" + i;
 					idLoca = "fname" + i;
@@ -425,9 +592,12 @@ for (i = 0; i < kzm.length; i++) {
 
 }
 function clossdiv() { //used for closing the div and refresh the list
+            document.getElementById("blur1").style.filter="blur(0px)";  
+            document.getElementById("blur2").style.filter="blur(0px)"; 
             document.getElementById("idview").style.display = "none";
            // document.getElementById("divtst").style.display = "none";
             crete_list();
+            
         }
     </script>
 </html>
